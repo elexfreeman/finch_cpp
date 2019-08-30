@@ -1,4 +1,9 @@
 # Prerequisites
+WebApp.ini
+build-WebApp-Desktop-Debug
+WebApp.pro.user
+logs/*
+
 *.d
 
 # Compiled Object files
