@@ -14,6 +14,7 @@ HEADERS += \
            QtWebApp/qtservice/qtunixsocket.h \
            src/DB/basedb.h \
            src/DB/userdb.h \
+           src/Entity/baseentity.h \
            src/Entity/usere.h \
            src/controller/basecontroller.h \
            src/controller/usercontroller.h \
@@ -36,6 +37,7 @@ SOURCES += src/main.cpp \
            QtWebApp/qtservice/qtunixsocket.cpp \
            src/DB/basedb.cpp \
            src/DB/userdb.cpp \
+           src/Entity/baseentity.cpp \
            src/Entity/usere.cpp \
            src/controller/basecontroller.cpp \
            src/controller/usercontroller.cpp \

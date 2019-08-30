@@ -1,15 +1,18 @@
 #ifndef USERE_H
 #define USERE_H
+#include "baseentity.h"
 #include <QString>
 
-class UserE {
- public:
-  int id;
-  QString username;
-  QString login;
-  QString pass;
+class UserE : public BaseEntity {
+public:
+    int id;
+    QString username;
+    QString login;
+    QString pass;
 
-  UserE();
+    UserE();
+
+    QJsonObject asJson();
 };
 
-#endif  // USERE_H
+#endif // USERE_H
