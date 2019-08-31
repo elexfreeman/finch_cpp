@@ -4,13 +4,12 @@
 #include "../DB/userdb.h"
 #include "basecontroller.h"
 #include <QObject>
-class UserController : public BaseController
-{
+class UserController : public BaseController {
 public:
-  UserController(QObject* parent, JDBConnect* adbConn);
-
-  void init(HttpRequest& request, HttpResponse& response);
-  void getUserInfo(HttpRequest& request, HttpResponse& response);
+    UserController(HttpRequest& aRequest, HttpResponse& aResponse, JDBConnect* adbConn);
+    virtual ~UserController();
+    void init();
+    void getUserInfo();
 };
 
 #endif // USERCONTROLLER_H

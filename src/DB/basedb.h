@@ -1,20 +1,18 @@
 #ifndef BASEDB_H
 #define BASEDB_H
 
-#include <QObject>
-#include "../jdbconnect.h"
+#include "../system/DBSys/jdbconnect.h"
 
-class BaseDB : public QObject {
-  Q_OBJECT
- protected:
-  JDBConnect* dbConn;
+class BaseDB {
+protected:
+    JDBConnect* dbConn;
 
- public:
-  explicit BaseDB(QObject* parent, JDBConnect* adbConn);
+public:
+    explicit BaseDB(JDBConnect* adbConn);
 
- signals:
+signals:
 
- public slots:
+public slots:
 };
 
-#endif  // BASEDB_H
+#endif // BASEDB_H

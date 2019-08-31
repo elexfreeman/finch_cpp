@@ -18,79 +18,78 @@
 #include "controller/usercontroller.h"
 
 RequestMapper::RequestMapper(QObject* parent, JDBConnect* adbConn)
-  : HttpRequestHandler(parent)
+    : HttpRequestHandler(parent)
 {
-  qDebug("RequestMapper: created");
-  dbConn = adbConn;
+    qDebug("RequestMapper: created");
+    dbConn = adbConn;
 }
 
 RequestMapper::~RequestMapper()
 {
-  qDebug("RequestMapper: deleted");
+    qDebug("RequestMapper: deleted");
 }
 
-void
-RequestMapper::service(HttpRequest& request, HttpResponse& response)
+void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-  QByteArray path = request.getPath();
-  QByteArray headers = request.getHeader("host");
+    QByteArray path = request.getPath();
+    QByteArray headers = request.getHeader("host");
 
-  qDebug("RequestMapper: path=%s", path.data());
-  qDebug("RequestHeaders: path=%s", headers.data());
+    qDebug("RequestMapper: path=%s", path.data());
+    qDebug("RequestHeaders: path=%s", headers.data());
 
-  if (request.getMethod() == "GET") {
-    if (path.startsWith("/user")) {
+    if (request.getMethod() == "GET") {
+        if (path.startsWith("/user")) {
 
-      UserController* userC = new UserController(this, dbConn);
-      userC->init(request, response);
+            UserController* userC = new UserController(request, response, dbConn);
+            userC->init();
 
-      delete userC;
+            delete userC;
 
-    } else if (path.startsWith("/dump")) {
-      qDebug() << "dump";
+        } else if (path.startsWith("/dump")) {
+            qDebug() << "dump";
 
-      UserE* userE;
-      UserDB* userDB = new UserDB(this, dbConn);
-      userE = userDB->getUserInfoById(1);
-      qDebug() << "username" << userE->username;
+            UserE* userE;
+            UserDB* userDB = new UserDB(dbConn);
+            userE = userDB->getUserInfoById(1);
+            qDebug() << "username" << userE->username;
 
-      delete userDB;
-      delete userE;
+            delete userDB;
+            delete userE;
 
-      DumpController().service(request, response);
+            DumpController().service(request, response);
+        }
+
+        else if (path.startsWith("/template")) {
+            TemplateController().service(request, response);
+        }
+
+        else if (path.startsWith("/form")) {
+            FormController().service(request, response);
+        }
+
+        else if (path.startsWith("/file")) {
+            FileUploadController().service(request, response);
+        }
+
+        else if (path.startsWith("/session")) {
+            SessionController().service(request, response);
+        }
+
+        // All other pathes are mapped to the static file controller.
+        // In this case, a single instance is used for multiple requests.
+        else {
+            staticFileController->service(request, response);
+        }
+
+    } else if (request.getMethod() == "POST") {
     }
 
-    else if (path.startsWith("/template")) {
-      TemplateController().service(request, response);
+    // For the following pathes, each request gets its own new instance of the
+    // related controller.
+
+    qDebug("RequestMapper: finished request");
+    // Clear the log buffer
+    if (logger) {
+        logger->clear();
     }
-
-    else if (path.startsWith("/form")) {
-      FormController().service(request, response);
-    }
-
-    else if (path.startsWith("/file")) {
-      FileUploadController().service(request, response);
-    }
-
-    else if (path.startsWith("/session")) {
-      SessionController().service(request, response);
-    }
-
-    // All other pathes are mapped to the static file controller.
-    // In this case, a single instance is used for multiple requests.
-    else {
-      staticFileController->service(request, response);
-    }
-
-  } else if (request.getMethod() == "POST") {
-  }
-
-  // For the following pathes, each request gets its own new instance of the
-  // related controller.
-
-  qDebug("RequestMapper: finished request");
-  // Clear the log buffer
-  if (logger) {
-    logger->clear();
-  }
 }

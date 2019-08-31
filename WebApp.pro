@@ -19,14 +19,16 @@ HEADERS += \
            src/controller/basecontroller.h \
            src/controller/usercontroller.h \
            src/documentcache.h \
-           src/global.h \
-           src/jdbconnect.h \
+           src/global.h \           
            src/requestmapper.h \
            src/controller/dumpcontroller.h \
            src/controller/templatecontroller.h \
            src/controller/formcontroller.h \
            src/controller/fileuploadcontroller.h \
            src/controller/sessioncontroller.h \
+           src/system/DBSys/connectionpoll.h \
+           src/system/DBSys/jdbconnect.h \
+           src/system/connectionpoll.h \
            src/system/sysobjects.h
 
 SOURCES += src/main.cpp \
@@ -41,14 +43,16 @@ SOURCES += src/main.cpp \
            src/Entity/usere.cpp \
            src/controller/basecontroller.cpp \
            src/controller/usercontroller.cpp \
-           src/global.cpp \
-           src/jdbconnect.cpp \
+           src/global.cpp \           
            src/requestmapper.cpp \
            src/controller/dumpcontroller.cpp \
            src/controller/templatecontroller.cpp \
            src/controller/formcontroller.cpp \
            src/controller/fileuploadcontroller.cpp \
            src/controller/sessioncontroller.cpp \
+           src/system/DBSys/connectionpoll.cpp \
+           src/system/DBSys/jdbconnect.cpp \
+           src/system/connectionpoll.cpp \
            src/system/sysobjects.cpp
 
 OTHER_FILES += etc/* etc/docroot/* etc/templates/* etc/ssl/* logs/* ../readme.txt

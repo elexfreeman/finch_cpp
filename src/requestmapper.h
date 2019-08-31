@@ -6,8 +6,8 @@
 #ifndef REQUESTMAPPER_H
 #define REQUESTMAPPER_H
 
+#include "./system/DBSys/jdbconnect.h"
 #include "httprequesthandler.h"
-#include "jdbconnect.h"
 
 using namespace finch;
 
@@ -19,7 +19,6 @@ using namespace finch;
 class RequestMapper : public HttpRequestHandler {
     Q_OBJECT
     Q_DISABLE_COPY(RequestMapper)
-
 
 public:
     JDBConnect* dbConn;
@@ -41,7 +40,6 @@ public:
       @param response Must be used to return the response
     */
     void service(HttpRequest& request, HttpResponse& response);
-
 };
 
 #endif // REQUESTMAPPER_H

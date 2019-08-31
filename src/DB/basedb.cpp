@@ -1,5 +1,6 @@
 #include "basedb.h"
 
-BaseDB::BaseDB(QObject* parent, JDBConnect* adbConn) : QObject(parent) {
-  dbConn = adbConn;
+BaseDB::BaseDB(JDBConnect* adbConn)
+{
+    dbConn = adbConn;
 }

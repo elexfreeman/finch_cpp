@@ -1,6 +1,8 @@
 # Prerequisites
 WebApp.ini
+
 build-WebApp-Desktop-Debug
+build-WebApp-Desktop-Release
 WebApp.pro.user
 logs/*
 
