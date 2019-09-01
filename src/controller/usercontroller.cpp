@@ -1,7 +1,7 @@
 #include "usercontroller.h"
 
-UserController::UserController(HttpRequest& aRequest, HttpResponse& aResponse, JDBConnect* adbConn)
-    : BaseController(aRequest, aResponse, adbConn)
+UserController::UserController(HttpRequest& aRequest, HttpResponse& aResponse, JConnectionPoll* aPool)
+    : BaseController(aRequest, aResponse, aPool)
 {
 }
 
@@ -16,6 +16,7 @@ void UserController::init()
 {
     qDebug() << "user";
     path = request->getPath();
+
     if (path.toStdString() == "/user/getUserInfo") {
         getUserInfo();
     }
@@ -32,16 +33,16 @@ void UserController::getUserInfo()
     QByteArray body("");
     qDebug() << "user getUserInfo";
 
-    UserE* userE;
-    UserDB* userDB = new UserDB(dbConn);
-    userE = userDB->getUserInfoById(1);
-    qDebug() << "username" << userE->username;
+    //UserE* userE;
+    UserDB* userDB = new UserDB(pool);
+    //userE = userDB->getUserInfoById(1);
+    userDB->getUserInfoById(1);
 
     QJsonObject obj;
-    obj["user"] = userE->asJson();
+    //obj["user"] = userE->asJson();
 
     delete userDB;
-    delete userE;
+    //delete userE;
 
     QJsonDocument doc(obj);
     body.append(doc.toJson(QJsonDocument::Compact));

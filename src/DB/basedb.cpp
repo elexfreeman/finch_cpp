@@ -1,6 +1,6 @@
 #include "basedb.h"
 
-BaseDB::BaseDB(JDBConnect* adbConn)
+BaseDB::BaseDB(JConnectionPoll* aPool)
 {
-    dbConn = adbConn;
+    pool = aPool;
 }

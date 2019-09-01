@@ -1,14 +1,14 @@
 #ifndef BASEDB_H
 #define BASEDB_H
 
-#include "../system/DBSys/jdbconnect.h"
+#include "../system/DBSys/connectionpoll.h"
 
 class BaseDB {
 protected:
-    JDBConnect* dbConn;
+    JConnectionPoll* pool;
 
 public:
-    explicit BaseDB(JDBConnect* adbConn);
+    explicit BaseDB(JConnectionPoll* aPool);
 
 signals:
 

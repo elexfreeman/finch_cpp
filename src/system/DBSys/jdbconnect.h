@@ -11,12 +11,13 @@ public:
      * @brief db -подключение
      */
     QSqlDatabase db;
+    QString connId;
 
     /**
      * @brief free признак того что свободен
      */
     bool free;
-    JDBConnect(const QSettings* settings);
+    JDBConnect(const QSettings* settings, QString connName);
     ~JDBConnect();
 };
 

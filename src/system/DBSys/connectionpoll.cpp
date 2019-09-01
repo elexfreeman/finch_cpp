@@ -1,25 +1,50 @@
 #include "connectionpoll.h"
 
-JConnectionPoll::JConnectionPoll(const QSettings* settings)
+JConnectionPoll::JConnectionPoll(const QSettings* aSettings)
 {
-    connCount = settings->value("connCount").toInt();
-    pool.resize(connCount);
-    // создаем пул соединений с бд
-    for (int i = 0; i < connCount; i++) {
-        pool[i] = new JDBConnect(settings);
-    }
+    settings = aSettings;
+    qDebug() << "JDBConnect: hostname:" << settings->value("hostname").toString();
+    qDebug() << "JDBConnect: username:" << settings->value("username").toString();
+    qDebug() << "JDBConnect: pass:" << settings->value("pass").toString();
+    qDebug() << "JDBConnect: dbname:" << settings->value("dbname").toString();
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName(settings->value("hostname").toString());
+    db.setUserName(settings->value("username").toString());
+    db.setPassword(settings->value("pass").toString());
+    db.setDatabaseName(settings->value("dbname").toString());
+
+    if (!db.open()) {
+        qFatal("JConnectionPoll - Connection is not open");
+    };
+
+    query = new QSqlQuery(db);
 }
 
 JConnectionPoll::~JConnectionPoll()
 {
-    for (int i = 0; i < pool.size(); i++) {
-        delete pool[i];
-    }
+    delete query;
 }
 
-JConnectionPoll* JConnectionPoll::getInstance(const QSettings* settings)
+QString JConnectionPoll::getConnect()
 {
-    if (!p_instance)
-        p_instance = new JConnectionPoll(settings);
-    return p_instance;
+    QString myQueue = QString::number(queueNumber) + QString::number(QRandomGenerator::global()->bounded(16384));
+    qDebug() << ">>>>>>>>>>>>>>> myQueue" << myQueue;
+    queueNumber++;
+    connQueure.enqueue(myQueue);
+
+    bool bMyQ = false;
+    while (!bMyQ) {
+        //qDebug() << ">>>>>>>>>>>>>>> head " << connQueure.head();
+        if (connQueure.head() == myQueue) {
+            bMyQ = true;
+        }
+    }
+
+    return myQueue;
+}
+
+void JConnectionPoll::releaseConnect(QString qq)
+{
+    qDebug() << " >>>>>>>> releaseConnect" + qq << " +++++++++++++++++++++";
+    connQueure.dequeue();
 }

@@ -1,6 +1,7 @@
 #ifndef BASECONTROLLER_H
 #define BASECONTROLLER_H
-#include "../system/DBSys/jdbconnect.h"
+#include "../system/DBSys/connectionpoll.h"
+
 #include "httprequest.h"
 #include "httprequesthandler.h"
 #include "httpresponse.h"
@@ -17,11 +18,11 @@ public:
     QByteArray path;
 
 protected:
-    JDBConnect* dbConn;
+    JConnectionPoll* pool;
     HttpRequest* request;
     HttpResponse* response;
 
-    BaseController(HttpRequest& aRequest, HttpResponse& aResponse, JDBConnect* adbConn);
+    BaseController(HttpRequest& aRequest, HttpResponse& aResponse, JConnectionPoll* aPool);
     ~BaseController();
 };
 

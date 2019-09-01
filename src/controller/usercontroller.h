@@ -6,7 +6,7 @@
 #include <QObject>
 class UserController : public BaseController {
 public:
-    UserController(HttpRequest& aRequest, HttpResponse& aResponse, JDBConnect* adbConn);
+    UserController(HttpRequest& aRequest, HttpResponse& aResponse, JConnectionPoll* aPool);
     virtual ~UserController();
     void init();
     void getUserInfo();

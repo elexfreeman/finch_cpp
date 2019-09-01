@@ -7,14 +7,14 @@
 
 class UserDB : public BaseDB {
 public:
-    UserDB(JDBConnect* adbConn);
+    UserDB(JConnectionPoll* aPool);
 
     /**
    * @brief getUserInfoById - инфо по userId
    * @param id
    * @return UserE*
    */
-    UserE* getUserInfoById(int id);
+    void getUserInfoById(int id);
 };
 
 #endif // USERDB_H

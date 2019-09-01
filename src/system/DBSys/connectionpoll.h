@@ -1,31 +1,42 @@
 #ifndef CONNECTIONPOLL_H
 #define CONNECTIONPOLL_H
 #include "jdbconnect.h"
+#include <QQueue>
+#include <QRandomGenerator>
 #include <QSqlDatabase>
-#include <QVector>
 
 class JConnectionPoll : public QObject {
     Q_OBJECT
+
 public:
-    static JConnectionPoll* p_instance;
-    /**
-     * @brief pool - пул соединений с БД
-     */
-    QVector<JDBConnect*> pool;
+    // подклиюение к базе
+    QSqlDatabase db;
+    QSqlQuery* query;
 
-    int connCount;
+    // настроки подкл
+    const QSettings* settings;
 
-    JConnectionPoll(const QSettings* settings);
+    // очередь на запросы
+    QQueue<QString> connQueure;
+
+    // последний номер в очереди
+    int queueNumber;
+
+    JConnectionPoll(const QSettings* aSettings);
     ~JConnectionPoll();
 
-    int getFreeConnect();
-    void releaseConnect(int connetNumber);
+    /**
+     * @brief getFreeConnect - выдает номер свободного подключния
+     * при этом блокирует его для других подключений
+     * @return connect number in pool
+     */
+    QString getConnect();
 
     /**
-      * @brief getInstance
-      * @return JConnectionPoll singleton
-      */
-    static JConnectionPoll* getInstance(const QSettings* settings);
+     * @brief releaseConnect - освобождает подключение для других клиентов
+     * @param connetNumber
+     */
+    void releaseConnect(QString qq);
 };
 
 #endif // CONNECTIONPOLL_H

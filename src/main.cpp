@@ -3,7 +3,9 @@
   @author Stefan Frings
 */
 
+#include "./system/DBSys/connectionpoll.h"
 #include "./system/DBSys/jdbconnect.h"
+
 #include "global.h"
 #include "httplistener.h"
 #include "requestmapper.h"
@@ -89,16 +91,15 @@ int main(int argc, char* argv[])
     listenerSettings->beginGroup("listener");
 
     QSettings* dbSettings = new QSettings(configFileName, QSettings::IniFormat, &app);
-    listenerSettings->beginGroup("db");
+    dbSettings->beginGroup("db");
 
-    // конектимся к базе
-    JDBConnect* dbConn = new JDBConnect(dbSettings);
+    JConnectionPoll* pool = new JConnectionPoll(dbSettings);
 
-    new HttpListener(listenerSettings, new RequestMapper(&app, dbConn), &app);
+    new HttpListener(listenerSettings, new RequestMapper(&app, pool), &app);
 
     qInfo("Application has started");
     app.exec();
     qInfo("Application has stopped");
 
-    delete dbConn;
+    delete pool;
 }

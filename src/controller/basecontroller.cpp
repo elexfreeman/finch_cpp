@@ -1,10 +1,10 @@
 #include "basecontroller.h"
 
-BaseController::BaseController(HttpRequest& aRequest, HttpResponse& aResponse, JDBConnect* adbConn)
+BaseController::BaseController(HttpRequest& aRequest, HttpResponse& aResponse, JConnectionPoll* aPool)
 
 {
     qDebug("BaseController: created");
-    dbConn = adbConn;
+    pool = aPool;
     request = &aRequest;
     response = &aResponse;
 }

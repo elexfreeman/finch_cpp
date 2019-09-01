@@ -17,11 +17,11 @@
 
 #include "controller/usercontroller.h"
 
-RequestMapper::RequestMapper(QObject* parent, JDBConnect* adbConn)
+RequestMapper::RequestMapper(QObject* parent, JConnectionPoll* aPool)
     : HttpRequestHandler(parent)
 {
     qDebug("RequestMapper: created");
-    dbConn = adbConn;
+    pool = aPool;
 }
 
 RequestMapper::~RequestMapper()
@@ -40,21 +40,13 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
     if (request.getMethod() == "GET") {
         if (path.startsWith("/user")) {
 
-            UserController* userC = new UserController(request, response, dbConn);
+            UserController* userC = new UserController(request, response, pool);
             userC->init();
 
             delete userC;
 
         } else if (path.startsWith("/dump")) {
             qDebug() << "dump";
-
-            UserE* userE;
-            UserDB* userDB = new UserDB(dbConn);
-            userE = userDB->getUserInfoById(1);
-            qDebug() << "username" << userE->username;
-
-            delete userDB;
-            delete userE;
 
             DumpController().service(request, response);
         }

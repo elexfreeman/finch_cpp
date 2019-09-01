@@ -6,7 +6,7 @@
 #ifndef REQUESTMAPPER_H
 #define REQUESTMAPPER_H
 
-#include "./system/DBSys/jdbconnect.h"
+#include "./system/DBSys/connectionpoll.h"
 #include "httprequesthandler.h"
 
 using namespace finch;
@@ -21,13 +21,13 @@ class RequestMapper : public HttpRequestHandler {
     Q_DISABLE_COPY(RequestMapper)
 
 public:
-    JDBConnect* dbConn;
+    JConnectionPoll* pool;
     QSqlQuery query;
     /**
       Constructor.
       @param parent Parent object
     */
-    RequestMapper(QObject* parent, JDBConnect* adbConn);
+    RequestMapper(QObject* parent, JConnectionPoll* aPool);
 
     /**
       Destructor.
